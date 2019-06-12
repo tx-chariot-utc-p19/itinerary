@@ -28,7 +28,7 @@ def dijkstra(a, source, destination):
     currentNode = source; #on s'intéresse au sommet de départ
 
     while unvisited[destination]: #tant qu'on est pas arrivé à destination:
-        print(unvisited);
+
         #si le sommet courant a déjà été visité, il faut en changer on doit sélectionner un sommet à visiter
         if not unvisited[currentNode]: #il faut changer de sommet
             unvisitedDistances = unvisited * distances;
@@ -55,8 +55,13 @@ def dijkstra(a, source, destination):
 
 
     #à ce stade, previous contient une liste d'arcs optimaux, y compris des arcs qui n'interviennent pas dans le chemin souhaité. Il suffit donc de parcourir le trajet de la destination à l'arrivée, en n'empruntant que des arcs optimaux, pour trouver le chemin optimal.
-    return previous;
+    path = {};
+    currentNode = destination;
+    while currentNode != source:
+        path[currentNode] = previous[currentNode];
+        currentNode = previous[currentNode];
+    return path;
 
 
-print("dijkstra 0 3");
-print(dijkstra(graph,0,3));
+print("dijkstra 0 5");
+print(dijkstra(graph,0,5));

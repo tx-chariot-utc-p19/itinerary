@@ -12,10 +12,12 @@ def draw(graph2):
             if np.isinf(graph[i,j]):
                 graph[i,j]=0;
 
+
+    
     G = nx.from_numpy_matrix(graph);
 
     pos=nx.spring_layout(G);
-    nx.draw(G,pos)
+    nx.draw_networkx(G,pos)
     labels = nx.get_edge_attributes(G,'weight')
     nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
 

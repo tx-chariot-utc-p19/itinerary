@@ -15,7 +15,7 @@ graph = np.array([
 source = 1; #indice du sommet de départ
 destination=5; #indice du sommet d'arrivée
 
-d.draw(graph);
+d.drawAdjMat(graph);
 
 def dijkstra(a, source, destination):
     if len(a.shape) != 2 or max(a.shape) != min(a.shape):

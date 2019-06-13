@@ -4,7 +4,7 @@ from math import inf
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def draw(graph2):
+def drawAdjMat(graph2):
     graph=graph2;
     [m,n] = np.shape(graph);
     for i in range(0,n):

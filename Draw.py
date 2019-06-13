@@ -24,3 +24,11 @@ def drawAdjMat(graph2):
 
     plt.draw();  # pyplot draw()
     plt.show();
+
+def drawNxGraph(G):
+    pos=nx.spring_layout(G);
+    nx.draw_networkx(G,pos);
+    labels = nx.get_edge_attributes(G,'weight');
+    nx.draw_networkx_edge_labels(G,pos,edge_labels=labels);
+    plt.draw();
+    plt.show();

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import numpy as np
 from math import inf
+from operator import itemgetter
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -32,3 +33,25 @@ def drawNxGraph(G):
     nx.draw_networkx_edge_labels(G,pos,edge_labels=labels);
     plt.draw();
     plt.show();
+
+def drawGrid(m,n,xybreakPoints=[]):
+    if xybreakPoints==[]:
+        line = '╬' * m;
+        for i in range(0,n):
+            print(line);
+    else:
+        swap = lambda pair: (pair[1], pair[0]);
+        breakPoints = map(swap, xybreakPoints);
+        grid = np.zeros((n,m));
+        for point in breakPoints:
+            grid[point] = 1;
+        print(grid);
+        for i in range(0,n):
+            line = grid[n-1-i]; #pour afficher la ligne 0 en bas
+            for element in line:
+                if element:
+                    print('x', end='');
+                else:
+                    print('╬', end='');
+            print();
+

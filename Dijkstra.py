@@ -2,20 +2,8 @@
 import numpy as np
 from math import inf #représentation de l'infini (nAn)
 import Draw as d
-#données de test
-graph = np.array([
-        [0, 4, 2, inf, inf, inf],
-        [4, 0, 1, 5, inf, inf],
-        [2, 1, 0, 8, 10, inf],
-        [inf, 5, 8, 0, 2, 6],
-        [inf, inf, 10, 2, 0, 3],
-        [inf, inf, inf, 6, 3, 0]
-        ]); #représentation en matrice d'adjacence valuée de ce graphe: https://www.codewithc.com/wp-content/uploads/2014/07/dijkstra-algorithm-weighted-graph.png
+import networkx as nx;
 
-source = 1; #indice du sommet de départ
-destination=5; #indice du sommet d'arrivée
-
-d.drawAdjMat(graph);
 
 def dijkstra(a, source, destination):
     if len(a.shape) != 2 or max(a.shape) != min(a.shape):
@@ -27,8 +15,14 @@ def dijkstra(a, source, destination):
     unvisited = np.ones(n, bool); #tous les sommets n'ont pas encore été visités
     currentNode = source; #on s'intéresse au sommet de départ
 
-    while unvisited[destination]: #tant qu'on est pas arrivé à destination:
 
+    u = 0; #variable de débug pour stopper la boucle si elle ne sort pas
+    while unvisited[destination] and u < 30: #tant qu'on est pas arrivé à destination:
+        u = u+1;
+        print("current node:");
+        print(currentNode);
+        print("unvisited:");
+        print(unvisited);
         #si le sommet courant a déjà été visité, il faut en changer on doit sélectionner un sommet à visiter
         if not unvisited[currentNode]: #il faut changer de sommet
             unvisitedDistances = unvisited * distances;
@@ -63,5 +57,12 @@ def dijkstra(a, source, destination):
     return path;
 
 
-print("dijkstra 0 5");
-print(dijkstra(graph,0,5));
+
+def itinerary(G,source,destination):
+    adjMat = np.asarray(nx.to_numpy_matrix(G));
+    nodeDic = list(G.nodes());
+    sourceIndex = nodeDic.index(source);
+    destinationIndex = nodeDic.index(destination);
+    d.drawAdjMat(adjMat);
+    path = dijkstra(adjMat,sourceIndex,destinationIndex);
+    print(path);

@@ -7,21 +7,18 @@ import networkx as nx;
 from itertools import combinations;
 import Draw as d;
 
-grid = np.array([5,5]); #5*5 = 25 intersections, celle en bas à droite s'appelle (24,0).
-corridorWidth = 0.02; #m, utilisé pour calculer le Rc
 
-breakPoints = [(0,0),(4,8),(3,12)];
-
-
-mu = 0.35; #coefficient de frottement statique carton/fer déterminé pour notre prototype
+#constantes
+#universelles
 g = 9.80665; #m*s^-2*g
+#intrinsèques au chariot
+mu = 0.35; #coefficient de frottement statique carton/fer déterminé pour notre prototype
 r = 0.02; #m, rayon des roues
 e = 0.07; #m, hauteur du centre de gravité (colis)
 l = 0.03; #m, écartement des roues
-rc = corridorWidth/2;
 
 
-def localPath(a,b):
+def localPath(a,b,rc):
     #prend en entrée deux points de la grille, retourne le meilleur chemin et son coût
     #la convention est de toujours prendre le chemin dont le premier segment est horizontal
     #le chemin est encodé au format sommet
@@ -39,15 +36,20 @@ def bendTime(rc):
     #temps minimal pour parcourir un virage de rayon de courbure rc
     return pi*sqrt(rc*(r+e)/(2*l*g));
 
-def breakDownGrid(grid,breakPoints):
+def breakDownGrid(grid,breakPoints,rc):
     #retourne un graphe fortement connexe dont les sommets sont les points d'arrêt pour chaque couple de points imposés, chaque arête a pour poids le coût du chemin optimal local, le tracé dans la grille du chemin optimal local est stocké dans l'attribut localPath
     G = nx.Graph();
     G.add_nodes_from(breakPoints);
     pairs = list(combinations(breakPoints,2)); #very bad code
     for pair in pairs:
-        path = localPath(pair[0],pair[1]);
+        path = localPath(pair[0],pair[1],rc);
         G.add_edge(pair[0],pair[1],weight=path[1],localPath=path[0]); #localPath est un attribut non-standard de networkx (il n'a pas d'effet de bord, son nom est défini arbitrairement)
     return G;
 
 
-d.drawNxGraph(breakDownGrid(grid, breakPoints));
+
+
+def valuate(n,m,breakPoints,corridorWidth):
+    grid = np.array([n,m]);
+    rc = corridorWidth /2;
+    return breakDownGrid(grid, breakPoints, rc);

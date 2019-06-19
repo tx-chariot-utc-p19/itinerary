@@ -11,7 +11,7 @@ import networkx as nx;
 #Script de démo
 
 #ENTREE
-debug = True;
+debug = False;
 
 if not debug:
     

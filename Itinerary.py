@@ -2,11 +2,19 @@
 #Algo partant du principe que tous les chemins entre deux points sont minimaux: il suffit de prendre le plus proche non visité, puis le plus proche non visité, etc.
 
 import networkx as nx;
+import Valuation as v;
 
-def itinerary(G, source):
+def itinerary(G, source,rc):
     path = [source];
+    bendCost = v.bendTime(rc);
     while len(path) < G.number_of_nodes():
-        path.append(min(compl(path,G.neighbors(path[-1])), key = lambda node : getWeight(node,path,G)));
+        cost = {};
+        for node in compl(path,G.neighbors(path[-1])):
+            cost[node] = getWeight(node,path,G);
+            if node[0] != path[-1][0] and node[1] != path[-1][1]:
+                cost[node] = cost[node] + bendCost;
+
+        path.append(min(compl(path,G.neighbors(path[-1])), key = lambda node : cost[node]));
     return path;
 
 def compl(a,b):

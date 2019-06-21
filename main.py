@@ -72,4 +72,4 @@ d.drawNxGraph(Gsimp);
 #d.drawAdjMat(adjMat);
 
 nodeList = list(Gsimp.nodes());
-print(it.itinerary(Gsimp,nodeList[0]));
+print(it.itinerary(Gsimp,nodeList[0],v.rc(corridorWidth)));

@@ -51,5 +51,7 @@ def breakDownGrid(grid,breakPoints,rc):
 
 def valuate(n,m,breakPoints,corridorWidth):
     grid = np.array([n,m]);
-    rc = corridorWidth /2;
-    return breakDownGrid(grid, breakPoints, rc);
+    return breakDownGrid(grid, breakPoints, rc(corridorWidth));
+
+def rc(corridorWidth):
+    return corridorWidth/2;

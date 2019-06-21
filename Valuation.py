@@ -40,7 +40,7 @@ def breakDownGrid(grid,breakPoints,rc):
     #retourne un graphe fortement connexe dont les sommets sont les points d'arrêt pour chaque couple de points imposés, chaque arête a pour poids le coût du chemin optimal local, le tracé dans la grille du chemin optimal local est stocké dans l'attribut localPath
     G = nx.Graph();
     G.add_nodes_from(breakPoints);
-    pairs = list(combinations(breakPoints,2)); #very bad code
+    pairs = list(combinations(breakPoints,2)); #O(n^2)
     for pair in pairs:
         path = localPath(pair[0],pair[1],rc);
         G.add_edge(pair[0],pair[1],weight=path[1],localPath=path[0]); #localPath est un attribut non-standard de networkx (il n'a pas d'effet de bord, son nom est défini arbitrairement)
